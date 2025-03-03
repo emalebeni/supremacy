@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Modifier une Inscription</h1>
+
+<form method="POST" action="{{ url_for('modifier_inscription', identifiant=inscription.identifiant) }}">
+    <div class="form-group">
+        <label for="etudiant">Étudiant</label>
+        <select class="form-control" id="etudiant" name="etudiant" required>
+            {% for etudiant in etudiants %}
+            <option value="{{ etudiant.id }}" {% if etudiant.id == inscription.etudiant %}selected{% endif %}>
+                {{ etudiant.nom }} {{ etudiant.prenom }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="cours">Cours</label>
+        <select class="form-control" id="cours" name="cours" required>
+            {% for cours in cours %}
+            <option value="{{ cours.id }}" {% if cours.id == inscription.cours %}selected{% endif %}>
+                {{ cours.nom }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="note_finale">Note Finale</label>
+        <input type="number" step="0.01" class="form-control" id="note_finale" name="note_finale" value="{{ inscription.note_finale }}" required>
+    </div>
+    <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" name="statut">
+            <option value="En attente" {% if inscription.statut == 'En attente' %}selected{% endif %}>En attente</option>
+            <option value="Actif" {% if inscription.statut == 'Actif' %}selected{% endif %}>Actif</option>
+            <option value="Abandonné" {% if inscription.statut == 'Abandonné' %}selected{% endif %}>Abandonné</option>
+            <option value="Terminé" {% if inscription.statut == 'Terminé' %}selected{% endif %}>Terminé</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    <a href="{{ url_for('supprimer_inscription', identifiant=inscription.identifiant) }}" class="btn btn-danger float-right">Supprimer</a>
+</form>
+{% endblock %}

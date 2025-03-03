@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Liste des Inscriptions</h1>
+<a href="{{ url_for('inscription') }}" class="btn btn-primary mb-3">Ajouter une Inscription</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Étudiant</th>
+            <th>Cours</th>
+            <th>Note Finale</th>
+            <th>Date d'Inscription</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inscription in inscriptions %}
+        <tr>
+            <td>{{ inscription.etudiant_nom }} {{ inscription.etudiant_prenom }}</td>
+            <td>{{ inscription.cours_nom }}</td>
+            <td>{{ inscription.note_finale }}</td>
+            <td>{{ inscription.date_inscription }}</td>
+            <td>
+                {% if inscription.statut == 'Actif' %}
+                    <span class="badge badge-actif">Actif</span>
+                {% elif inscription.statut == 'En attente' %}
+                    <span class="badge badge-inactif">En attente</span>
+                {% elif inscription.statut == 'Abandonné' %}
+                    <span class="badge badge-en-cours">Abandonné</span>
+                    {% elif inscription.statut == 'Terminé' %}
+                    <span class="badge badge-en-cours">Terminé</span>
+                {% endif %}
+            </td>
+            <td>
+                <!-- Dropdown Actions -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('modifier_inscription', identifiant=inscription.identifiant) }}">Modifier</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('supprimer_inscription', identifiant=inscription.identifiant) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">Supprimer</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

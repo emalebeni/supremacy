@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Modifier un Cours</h1>
+
+<form method="POST" action="{{ url_for('modifier_cours', identifiant=cours.identifiant) }}">
+    <div class="form-group">
+        <label for="identifiant">Identifiant</label>
+        <input type="text" class="form-control" id="identifiant" name="identifiant" value="{{ cours.identifiant }}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="nom">Nom du Cours</label>
+        <input type="text" class="form-control" id="nom" name="nom" value="{{ cours.nom }}" required>
+    </div>
+    <div class="form-group">
+        <label for="code">Code du Cours</label>
+        <input type="text" class="form-control" id="code" name="code" value="{{ cours.code }}" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" required>{{ cours.description }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="credits">Crédits</label>
+        <input type="number" class="form-control" id="credits" name="credits" value="{{ cours.credits }}" required>
+    </div>
+    <div class="form-group">
+        <label for="capacite_max">Capacité Max</label>
+        <input type="number" class="form-control" id="capacite_max" name="capacite_max" value="{{ cours.capacite_max }}" required>
+    </div>
+    <div class="form-group">
+        <label for="enseignant">Enseignant</label>
+        <select class="form-control" id="enseignant" name="enseignant" required>
+            {% for enseignant in enseignants %}
+            <option value="{{ enseignant.id }}" {% if enseignant.id == cours.enseignant %}selected{% endif %}>
+                {{ enseignant.nom }} {{ enseignant.prenom }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    
+    <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" name="statut">
+            <option value="Actif" {% if cours.statut == 'Actif' %}selected{% endif %}>Actif</option>
+            <option value="Suspendu" {% if cours.statut == 'Suspendu' %}selected{% endif %}>Suspendu</option>
+            <option value="Complet" {% if cours.statut == 'Complet' %}selected{% endif %}>Complet</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    <a href="{{ url_for('liste_cours') }}" class="btn btn-secondary">Retour</a>
+</form>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4 text-center" style="color: #343a40;">Bienvenue dans le Tableau de Bord</h1>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm bg-primary text-white">
+            <div class="card-header">Total Étudiants</div>
+            <div class="card-body text-center">
+                <h3 class="display-4">{{ total_etudiants }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm bg-secondary text-white">
+            <div class="card-header">Total Enseignants</div>
+            <div class="card-body text-center">
+                <h3 class="display-4">{{ total_enseignants }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm bg-success text-white">
+            <div class="card-header">Total Cours</div>
+            <div class="card-body text-center">
+                <h3 class="display-4">{{ total_cours }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm bg-info text-white">
+            <div class="card-header">Total Inscriptions</div>
+            <div class="card-body text-center">
+                <h3 class="display-4">{{ total_inscriptions }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Graphiques et Diagrammes -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-4">
+        <h2>Répartition des Données (Diagramme Circulaire)</h2>
+        <canvas id="pieChart"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+        <h2>Statistiques Globales (Graphique à Barres)</h2>
+        <canvas id="barChart"></canvas>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- Styles CSS -->
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .card {
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+    .display-4 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    h1 {
+        color: #343a40;
+    }
+    .card-header {
+        background-color: #343a40;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+<!-- Scripts Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Diagramme Circulaire
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Étudiants', 'Enseignants', 'Cours', 'Inscriptions'],
+            datasets: [{
+                data: [{{ total_etudiants }}, {{ total_enseignants }}, {{ total_cours }}, {{ total_inscriptions }}],
+                backgroundColor: ['#007bff', '#6c757d', '#28a745', '#17a2b8'],
+            }]
+        }
+    });
+
+    // Graphique à Barres
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Étudiants', 'Enseignants', 'Cours', 'Inscriptions'],
+            datasets: [{
+                label: 'Nombre',
+                data: [{{ total_etudiants }}, {{ total_enseignants }}, {{ total_cours }}, {{ total_inscriptions }}],
+                backgroundColor: ['#007bff', '#6c757d', '#28a745', '#17a2b8'],
+                borderColor: ['#0056b3', '#545b62', '#1e7e34', '#117a8b'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>

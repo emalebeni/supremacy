@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Ajouter une Inscription</h1>
+
+<form method="POST" action="{{ url_for('inscription') }}">
+    <div class="form-group">
+        <label for="etudiant">Étudiant</label>
+        <select class="form-control" id="etudiant" name="etudiant" required>
+            {% for etudiant in etudiants %}
+            <option value="{{ etudiant.id }}">{{ etudiant.nom }} {{ etudiant.prenom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="cours">Cours</label>
+        <select class="form-control" id="cours" name="cours" required>
+            {% for cours in cours %}
+            <option value="{{ cours.id }}">{{ cours.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="date_inscription">Date d'Inscription</label>
+        <input type="date" class="form-control" id="date_inscription" name="date_inscription" required>
+    </div>
+    <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" name="statut">
+            <option value="Inscrit">Inscrit</option>
+            <option value="Abandonné">Abandonné</option>
+            <option value="Terminé">Terminé</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+    <a href="{{ url_for('liste_inscriptions') }}" class="btn btn-secondary">Retour</a>   
+</form>
+{% endblock %}

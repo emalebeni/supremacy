@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Modifier un Enseignant</h1>
+
+<form method="POST" action="{{ url_for('modifier_enseignant', identifiant=enseignant.identifiant) }}">
+    <div class="form-group">
+        <label for="identifiant">Identifiant</label>
+        <input type="text" class="form-control" id="identifiant" name="identifiant" value="{{ enseignant.identifiant }}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom" value="{{ enseignant.nom }}" required>
+    </div>
+    <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" value="{{ enseignant.prenom }}" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ enseignant.email }}" required>
+    </div>
+    <div class="form-group">
+        <label for="telephone">Téléphone</label>
+        <input type="text" class="form-control" id="telephone" name="telephone" value="{{ enseignant.telephone }}" required>
+    </div>
+    <div class="form-group">
+        <label for="specialite">Spécialité</label>
+        <input type="text" class="form-control" id="specialite" name="specialite" value="{{ enseignant.specialite }}" required>
+    </div>
+    <div class="form-group">
+        <label for="a_propos">Description</label>
+        <textarea class="form-control" id="a_propos" name="a_propos" value="{{ enseignant.a_propos}}" vrequired></textarea>
+    </div>
+    <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" name="statut">
+            <option value="Actif" {% if enseignant.statut == 'Actif' %}selected{% endif %}>Actif</option>
+            <option value="En congé" {% if enseignant.statut == 'En congé' %}selected{% endif %}>En Congé</option>
+            <option value="Retraité" {% if enseignant.statut == 'Retraité' %}selected{% endif %}>Retraité</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    <a href="{{ url_for('liste_enseignants') }}" class="btn btn-secondary">Retour</a>
+</form>
+{% endblock %}

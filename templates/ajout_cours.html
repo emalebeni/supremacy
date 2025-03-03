@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Ajouter un Cours</h1>
+
+<form method="POST" action="{{ url_for('ajout_cours') }}">
+    <div class="form-group">
+        <label for="nom">Nom du Cours</label>
+        <input type="text" class="form-control" id="nom" name="nom" required>
+    </div>
+    <div class="form-group">
+        <label for="code">Code du Cours</label>
+        <input type="text" class="form-control" id="code" name="code" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="credits">Crédits</label>
+        <input type="number" class="form-control" id="credits" name="credits" required>
+    </div>
+    <div class="form-group">
+        <label for="capacite_max">Capacité Max</label>
+        <input type="number" class="form-control" id="capacite_max" name="capacite_max" required>
+    </div>
+    <div class="form-group">
+        <label for="enseignant">Enseignant</label>
+        <select class="form-control" id="enseignant" name="enseignant" required>
+            {% for enseignant in enseignants %}
+            <option value="{{ enseignant.id }}">{{ enseignant.nom }} {{ enseignant.prenom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" name="statut">
+            <option value="Actif">Actif</option>
+            <option value="Suspendu">Suspendu</option>
+            <option value="Complet">Complet</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+    <a href="{{ url_for('liste_cours') }}" class="btn btn-secondary">Retour à la liste des Cours</a>
+</form>
+{% endblock %}

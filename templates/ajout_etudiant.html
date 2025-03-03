@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Ajouter un Étudiant</h1>
+
+<form method="POST" action="{{ url_for('ajout_etudiant') }}">
+    <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom" required>
+    </div>
+    <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="a_propos">Description</label>
+        <textarea class="form-control" id="a_propos" name="a_propos" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="telephone">Téléphone</label>
+        <input type="text" class="form-control" id="telephone" name="telephone" required>
+    </div>
+    <div class="form-group">
+        <label for="date_naissance">Date de Naissance</label>
+        <input type="date" class="form-control" id="date_naissance" name="date_naissance" required>
+    </div>
+    <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" name="statut" readonly>
+            <option value="Actif">Actif</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+    <a href="{{ url_for('liste_etudiants') }}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

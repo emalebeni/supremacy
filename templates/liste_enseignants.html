@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Liste des Enseignants</h1>
+<a href="{{ url_for('ajout_enseignant') }}" class="btn btn-primary mb-3">Ajouter un Enseignant</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Spécialité</th>
+            <th>Description</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for enseignant in enseignants %}
+        <tr>
+            <td>{{ enseignant.nom }}</td>
+            <td>{{ enseignant.prenom }}</td>
+            <td>{{ enseignant.email }}</td>
+            <td>{{ enseignant.telephone }}</td>
+            <td>{{ enseignant.specialite }}</td>
+            <td>
+                {% if enseignant.a_propos is not none and enseignant.a_propos != '' %}
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ enseignant.identifiant }}" title="Voir la description">Voir</button>
+                {% else %}
+                    <span class="text-danger">❌</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if enseignant.statut == 'Actif' %}
+                    <span class="badge badge-actif">Actif</span>
+                {% elif enseignant.statut == 'En congé' %}
+                    <span class="badge badge-inactif">En Congé</span>
+                {% elif enseignant.statut == 'Retraité' %}
+                    <span class="badge badge-en-cours">Retraité</span>
+                {% endif %}
+            </td>
+            <td>
+                <!-- Dropdown Actions -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Actions">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('modifier_enseignant', identifiant=enseignant.identifiant) }}">Modifier</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('supprimer_enseignant', identifiant=enseignant.identifiant) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">Supprimer</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Modal Description -->
+        <div class="modal fade" id="modal{{ enseignant.identifiant }}" tabindex="-1" aria-labelledby="modalLabel{{ enseignant.identifiant }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalLabel{{ enseignant.identifiant }}">{{ enseignant.nom }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ enseignant.description | safe }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <style>
+        /* Badge pour les enseignants actifs */
+.badge-actif {
+    background-color: #28a745;  /* Vert */
+}
+
+/* Badge pour les enseignants inactifs */
+.badge-inactif {
+    background-color: #dc3545;  /* Rouge */
+}
+
+/* Badge pour les enseignants en cours */
+.badge-en-cours {
+    background-color: #ffc107;  /* Jaune */
+    color: black;
+}
+
+/* Badge pour les enseignants en attente */
+.badge-en-attente {
+    background-color: #6c757d;  /* Gris */
+}
+
+/* Pour les tooltips */
+[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 0.875rem;
+}
+
+    </style>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
