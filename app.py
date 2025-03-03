@@ -277,7 +277,7 @@ def ajout_enseignant():
         db = get_db()
         cursor = db.cursor()
         cursor.execute('''INSERT INTO enseignants (identifiant, nom, prenom, email, telephone, specialite, a_propos, statut)
-                     VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
                   (identifiant, nom, prenom, email, telephone, specialite, a_propos, statut))
         db.commit()
         db.close()
